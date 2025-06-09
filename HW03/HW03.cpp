@@ -1,4 +1,5 @@
 ﻿#include <iostream>
+#include <algorithm>
 
 using namespace std;
 
@@ -24,10 +25,15 @@ public:
 
     void push_back(const T& value)
     {
-        if (currentSize == currentCapacity) return;
+        if (currentSize == currentCapacity)
+        {
+            int newCapacity = currentCapacity + 5;
+            resize(newCapacity);
+        }
 
         data[currentSize] = value;
         currentSize++;
+
     }
 
     void pop_back()
@@ -48,7 +54,21 @@ public:
 
     void resize(int newCapacity)
     {
+        if (newCapacity <= currentSize) return;
+        currentCapacity = newCapacity;
 
+        T* newData = new T[newCapacity];
+
+        for (int i = 0; i < currentSize; ++i)
+            newData[i] = data[i];
+
+        if (data) delete[] data;
+        data = newData;
+    }
+
+    void sortData()
+    {
+        sort(data, data + currentSize);
     }
 
 public:
@@ -61,19 +81,33 @@ public:
 
 int main()
 {
-    SimpleVector<int> vec;
+    SimpleVector<int> vec(1);
 
-
+    // resize 동작 확인
     vec.push_back(10);
     vec.push_back(11);
     vec.push_back(14);
+    vec.push_back(17);
+    vec.push_back(14);
+    vec.push_back(16);
+    vec.push_back(13);
 
+    // push_back 동작 확인
     for (int i = 0; i < vec.size(); ++i)
     {
         cout << *(vec.data + i) << endl;
     }
 
+    // pop_back 동작 확인
     vec.pop_back();
+    for (int i = 0; i < vec.size(); ++i)
+    {
+        cout << *(vec.data + i) << endl;
+    }
+
+    vec.sortData();
+
+    // 정렬 확인
     for (int i = 0; i < vec.size(); ++i)
     {
         cout << *(vec.data + i) << endl;
