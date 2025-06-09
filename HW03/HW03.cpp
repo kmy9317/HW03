@@ -52,6 +52,10 @@ public:
         return currentCapacity;
     }
 
+    // 메모리 재할당시
+    // [   기존 배열   ]
+    // [            새 배열        ]
+    // 기본 배열의 원소들을 새 배열에 옮기고 기존 배열 메모리 해제
     void resize(int newCapacity)
     {
         if (newCapacity <= currentSize) return;
@@ -81,6 +85,7 @@ public:
 
 int main()
 {
+    // 템플릿을 사용하지 않는 경우 SimpleVector라는 Class를 타입별로 직접 코딩해야 한다
     SimpleVector<int> vec(1);
 
     // resize 동작 확인
